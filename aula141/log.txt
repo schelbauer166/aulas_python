@@ -1,0 +1,6 @@
+LogFileMixin log via file: Sucesso: Passou no teste
+LogFileMixin log via file: Erros: Erro no teste
+LogFileMixin log via file: Sucesso: Passou no teste
+LogFileMixin log via file: Erros: Erro no teste
+LogFileMixin log via file: Sucesso: Passou no teste
+LogFileMixin log via file: Erros: Erro no teste
