@@ -1,26 +1,50 @@
-import abc
+from abc import ABC, abstractmethod
 
-class Conta(abc.ABC):
-    def __init__(self, agencia, numero_conta, saldo) -> None:
+
+class Contas(ABC):
+    def __init__(self, agencia: int, conta: int, saldo: float) -> None:
         self.agencia = agencia
-        self.numero_conta = numero_conta
+        self.conta = conta
         self.saldo = saldo
         
-    def depositar(self, valor):
+    def depositar(self, valor: float) -> float:
         self.saldo += valor
-        
-    @abc.abstractmethod
-    def sacar(self, valor):
-        ...
+        print(f'Voce deposiou R${valor}. Saldo atualizado R${self.saldo}')
+        return self.saldo
+    
+    @abstractmethod
+    def sacar(self, valor: float) -> float:
+        pass
+    
 
-class ContaCorrente(Conta):
-    def sacar(self, valor):
-        if valor >= self.saldo:
-            print(f'Seu saldo é insuficiente, saldo: {self.saldo}, Valor para saque: {valor} voce esta usando seu limite.')
-        self.saldo -= valor
-        print(f'Seu saldo e de: {self.saldo}')
+class ContaPoupanca(Contas):
+    
+    def sacar(self, valor: float) -> float | None:
+        if valor > self.saldo:
+            print("Saldo insuficiente")
+            return None
+        saldo_atualizado = self.saldo - valor
+        print(f'Saque autorizado, saldo: {saldo_atualizado}')
+        return saldo_atualizado
+    
+
+class ContaCorrente(Contas):
+    def __init__(self, agencia: int, conta: int, saldo: float, limite: float) -> None:
+        super().__init__(agencia, conta, saldo)
+        self.limite = limite
         
-class ContaPoupanca(Conta):
-    def sacar(self, valor):
-        if valor >= self.saldo:
-            print(f'Saldo insuficiente, Saldo:{self.saldo} ')
+    def sacar(self, valor: float) -> float:
+        if valor > self.saldo:
+            valor_ = valor - self.saldo
+            saldo_final = self.limite - valor_
+            print(f'Saldo insuficiente, utilizando {valor_} do seu limite.')
+            return saldo_final
+        return self.saldo - valor
+    
+    
+
+
+    
+
+    
+        
